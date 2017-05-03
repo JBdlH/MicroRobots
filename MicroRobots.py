@@ -1,8 +1,8 @@
 ## Hauríeu de poder obrir-lo amb el vostre python. Si es queixa de les llibreries les haureu d'instal·lar, busqueu com fer-ho per internet. De moment podeu comentar els imports amb un # davant de la línia
 
 #import numpy as np
-#import networkx as nx
-#import matplotlib.pyplot as plt
+import networkx as nx
+import matplotlib.pyplot as plt
 
 class Peca(object):
   def __init__(self,llista):
@@ -68,7 +68,7 @@ class Peca(object):
       return [self.caselles[2],self.caselles[5],self.caselles[8]]
     elif self.orientacio == 'E':
       return self.caselles[0:3]
-    elif self.orientacio == 'O':
+    elif self.orientacio == 'O':  
       return [self.caselles[8],self.caselles[7],self.caselles[6]]
     else:
       return [self.caselles[6],self.caselles[3],self.caselles[0]]
@@ -94,6 +94,45 @@ class Taulel (object):
 
     return fila1 + fila2+ fila3+ fila4+ fila5+ fila6
 
+  
+  def columna(self,n):
+    if (n==1):
+      return cadena1(self.peces[0].esquerra() + self.peces[2].esquerra())
+    if (n==2):
+      return cadena1(self.peces[0].migv() + self.peces[2].migv())
+    if (n==3):
+      return cadena1(self.peces[0].dreta() + self.peces[2].dreta())
+    if (n==4):
+      return cadena1(self.peces[1].esquerra() + self.peces[3].esquerra())
+    if (n==5):
+      return cadena1(self.peces[1].migv() + self.peces[3].migv())
+    if (n==6):
+      return cadena1(self.peces[1].dreta() + self.peces[3].dreta())
+
+    
+  def fila(self,n):
+    if (n==1):
+      return cadena1(self.peces[0].dalt() + self.peces[1].dalt())
+    if (n==2):
+      return cadena1(self.peces[0].migh() + self.peces[1].migh())
+    if (n==3):
+      return cadena1(self.peces[0].baix() + self.peces[1].baix())
+    if (n==4):
+      return cadena1(self.peces[2].dalt() + self.peces[3].dalt())
+    if (n==5):
+      return cadena1(self.peces[2].migh() + self.peces[3].migh())
+    if (n==6):
+      return cadena1(self.peces[2].baix() + self.peces[3].baix())
+
+def graph (taulel):
+  p = []
+  for i in range(1,7):
+    p += taulel.fila(i).split()
+
+  g =nx.Graph()
+  g.add_nodes_from (p)
+
+#cal fer tot lu de les conexions entre els nodes.
 
 def cadena (llista):
   string=''
@@ -101,4 +140,9 @@ def cadena (llista):
     string+=(element + ' ')
   string+='\n'
   return string
+def cadena1 (llista):
+  string=''
+  for element in llista:
+    string+=(element + ' ')
+  return string.strip()
 
