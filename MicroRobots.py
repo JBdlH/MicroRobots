@@ -1,6 +1,6 @@
 ## Hauríeu de poder obrir-lo amb el vostre python. Si es queixa de les llibreries les haureu d'instal·lar, busqueu com fer-ho per internet. De moment podeu comentar els imports amb un # davant de la línia
 
-#import numpy as np
+import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
 
@@ -125,14 +125,25 @@ class Taulel (object):
       return cadena1(self.peces[2].baix() + self.peces[3].baix())
 
 def graph (taulel):
-  p = []
-  for i in range(1,7):
-    p += taulel.fila(i).split()
+    p = []
+    for i in range(1,7):
+        p += taulel.fila(i).split()
+    g =nx.Graph()
+    g.add_nodes_from (p)
+    for i in range (6):
+        f = taulel.fila(i+1).split()
+        for x in range (5):
+            n = f[x][0]
+            c = f[x][1]
+            for j in range (x+1,6):
+                if n==f[j][0]:
+                    g.add_edge(f[x], f[j])
+                if c==f[j][1]:
+                    g.add_edge(f[x], f[j])
+    # Cal comprovar que el for i in ... faci tots els vincles de les files b�.
+    # Cal fer el mateix per les columnes
+    return g
 
-  g =nx.Graph()
-  g.add_nodes_from (p)
-
-#cal fer tot lu de les conexions entre els nodes.
 
 def cadena (llista):
   string=''
