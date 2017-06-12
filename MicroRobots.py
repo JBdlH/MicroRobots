@@ -1,4 +1,4 @@
-## Hauríeu de poder obrir-lo amb el vostre python. Si es queixa de les llibreries les haureu d'instal·lar, busqueu com fer-ho per internet. De moment podeu comentar els imports amb un # davant de la línia
+## HaurÃ­eu de poder obrir-lo amb el vostre python. Si es queixa de les llibreries les haureu d'instalÂ·lar, busqueu com fer-ho per internet. De moment podeu comentar els imports amb un # davant de la lÃ­nia
 
 import numpy as np
 import networkx as nx
@@ -6,9 +6,9 @@ import matplotlib.pyplot as plt
 
 class Peca(object):
   def __init__(self,llista):
-    """Crea una peça del taulell orientada directament al nord,
-       la casella del mig a dalt (en el moment de la creació)
-       marca la orientació"""
+    """Crea una peÃ§a del taulell orientada directament al nord,
+       la casella del mig a dalt (en el moment de la creaciÃ³)
+       marca la orientaciÃ³"""
     self.caselles = llista
     # Pot estar en N, S, E, O
     self.orientacio = 'N'
@@ -77,7 +77,7 @@ class Peca(object):
 p1 = Peca(['5P','2P','3P','6R','4R','3Y','4B','5G','3G'])
 p2 = Peca(['1Y','5R','1G','6Y','5B','1R','1P','5Y','6P'])
 p3 = Peca(['5W','4G','3B','3W','4Y','3R','2B','6B','6W'])
-p4 = Peca(['4P','2W','2Y','6G','2G','1W','4W','2R','1W'])
+p4 = Peca(['4P','2W','2Y','6G','2G','1W','4W','2R','1B'])
 
 class Taulel (object):
   def __init__ (self,llista_peces,llista_or):
@@ -140,10 +140,46 @@ def graph (taulel):
                     g.add_edge(f[x], f[j])
                 if c==f[j][1]:
                     g.add_edge(f[x], f[j])
-    # Cal comprovar que el for i in ... faci tots els vincles de les files b�.
+    for i in range (6):
+        col = taulel.columna(i+1).split()
+        for x in range (5):
+            n = col[x][0]
+            c = col[x][1]
+            for j in range (x+1,6):
+                if n==col[j][0]:
+                    g.add_edge(col[x], col[j])
+                if c==col[j][1]:
+                    g.add_edge(col[x], col[j])
+    # Cal comprovar que el for i in ... faci tots els vincles de les files bé.
     # Cal fer el mateix per les columnes
     return g
+def esgroc(x):
+  return 'Y' in x
 
+def esvermell(x):
+  return 'R' in x
+
+def esrosa(x):
+  return 'P' in x
+
+def esverd(x):
+  return 'G' in x
+
+def esblanc(x):
+  return 'W' in x
+
+def esblau(x):
+  return 'B' in x
+
+
+
+def dibuixa (graf):
+  vermells = filter(esvermell,graf.nodes())
+  grocs = list(filter(esgroc,graf.nodes()))
+  pos = nx.circular_layout(graf)
+  nx.draw(graf,pos,with_labels=True)
+  nx.draw_networkx_nodes(graf,pos,nodelist=grocs,node_color='y')
+  plt.show()
 
 def cadena (llista):
   string=''
