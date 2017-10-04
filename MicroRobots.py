@@ -149,10 +149,9 @@ def graph (taulel):
                 if n==col[j][0]:
                     g.add_edge(col[x], col[j])
                 if c==col[j][1]:
-                    g.add_edge(col[x], col[j])
-    # Cal comprovar que el for i in ... faci tots els vincles de les files bé.
-    # Cal fer el mateix per les columnes
+                    g.add_edge(col[x], col[j]
     return g
+                               
 def esgroc(x):
   return 'Y' in x
 
@@ -174,11 +173,21 @@ def esblau(x):
 
 
 def dibuixa (graf):
-  vermells = filter(esvermell,graf.nodes())
+  vermells = list(filter(esvermell,graf.nodes()))
   grocs = list(filter(esgroc,graf.nodes()))
+  verds = list(filter(esverd,graf.nodes()))
+  roses = list(filter(esrosa,graf.nodes()))
+  blaus = list(filter(esblau,graf.nodes()))
+  blancs = list(filter(esblanc,graf.nodes()))
   pos = nx.circular_layout(graf)
   nx.draw(graf,pos,with_labels=True)
   nx.draw_networkx_nodes(graf,pos,nodelist=grocs,node_color='y')
+  nx.draw_networkx_nodes(graf,pos,nodelist=vermells,node_color='r')
+  nx.draw_networkx_nodes(graf,pos,nodelist=blaus,node_color='b')
+  nx.draw_networkx_nodes(graf,pos,nodelist=verds,node_color='g')
+  nx.draw_networkx_nodes(graf,pos,nodelist=roses,node_color='m')
+  nx.draw_networkx_nodes(graf,pos,nodelist=blancs,node_color='w')
+  
   plt.show()
 
 def cadena (llista):
@@ -192,4 +201,9 @@ def cadena1 (llista):
   for element in llista:
     string+=(element + ' ')
   return string.strip()
+
+if __name__ == '__main__':
+  T = Taulel ([p1,p2,p3,p4],["N", "O", "E", "S"])
+  G = graph(T)
+  dibuixa(G)
 
